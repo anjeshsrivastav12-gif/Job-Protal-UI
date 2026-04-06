@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Job Portal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">JobPortal</div>
+
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#jobs">Jobs</a></li>
+        <li><a href="#dashboard">Recruiter</a></li>
+        <li><a href="#profile">Profile</a></li>
+        <li><a href="#auth">Login/Signup</a></li>
+      </ul>
+    </nav>
+
+    <button id="darkModeToggle" class="dark-btn">🌙 Dark Mode</button>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h1>Find Your Dream Job</h1>
+      <p>Search jobs, save favorites, apply online, and manage your profile.</p>
+
+      <div class="search-box">
+        <input type="text" id="jobSearch" placeholder="Search by title..." />
+        <button onclick="searchJobs()">Search</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filters -->
+  <section class="filter-section">
+    <h2>Filter Jobs</h2>
+    <div class="filters">
+      <select id="locationFilter">
+        <option value="">All Locations</option>
+        <option value="Delhi">Delhi</option>
+        <option value="Bangalore">Bangalore</option>
+        <option value="Mumbai">Mumbai</option>
+        <option value="Hyderabad">Hyderabad</option>
+        <option value="Noida">Noida</option>
+      </select>
+
+      <select id="salaryFilter">
+        <option value="">All Salaries</option>
+        <option value="30000">30,000+</option>
+        <option value="40000">40,000+</option>
+        <option value="50000">50,000+</option>
+        <option value="60000">60,000+</option>
+      </select>
+
+      <button onclick="filterJobs()">Apply Filter</button>
+      <button onclick="resetFilters()">Reset</button>
+    </div>
+  </section>
+
+  <!-- Jobs -->
+  <section class="jobs-section" id="jobs">
+    <h2>Available Jobs</h2>
+    <div class="jobs-container" id="jobsContainer"></div>
+  </section>
+
+  <!-- Saved Jobs -->
+  <section class="saved-section">
+    <h2>Saved Jobs</h2>
+    <div id="savedJobsContainer" class="jobs-container"></div>
+  </section>
+
+  <!-- Recruiter Dashboard -->
+  <section class="dashboard-section" id="dashboard">
+    <h2>Recruiter Dashboard</h2>
+    <div class="dashboard-box">
+      <form id="jobPostForm">
+        <input type="text" id="jobTitle" placeholder="Job Title" required />
+        <input type="text" id="companyName" placeholder="Company Name" required />
+        <input type="text" id="jobLocation" placeholder="Location" required />
+        <input type="number" id="jobSalary" placeholder="Salary" required />
+        <textarea id="jobDescription" placeholder="Job Description" required></textarea>
+        <button type="submit">Post Job</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Profile -->
+  <section class="profile-section" id="profile">
+    <h2>User Profile</h2>
+    <div class="profile-card">
+      <p><strong>Name:</strong> <span id="profileName">Not logged in</span></p>
+      <p><strong>Email:</strong> <span id="profileEmail">Not logged in</span></p>
+      <p><strong>Saved Jobs:</strong> <span id="profileSavedCount">0</span></p>
+      <p><strong>Applied Jobs:</strong> <span id="profileAppliedCount">0</span></p>
+    </div>
+  </section>
+
+  <!-- Auth -->
+  <section class="auth-section" id="auth">
+    <div class="auth-container">
+      <div class="form-toggle">
+        <button class="toggle-btn active" id="loginBtn">Login</button>
+        <button class="toggle-btn" id="signupBtn">Sign Up</button>
+      </div>
+
+      <form id="loginForm" class="auth-form active-form">
+        <h2>Login</h2>
+        <input type="email" id="loginEmail" placeholder="Enter email" required />
+        <input type="password" id="loginPassword" placeholder="Enter password" required />
+        <button type="submit">Login</button>
+        <p id="loginMessage" class="message"></p>
+      </form>
+
+      <form id="signupForm" class="auth-form">
+        <h2>Sign Up</h2>
+        <input type="text" id="signupName" placeholder="Full Name" required />
+        <input type="email" id="signupEmail" placeholder="Email" required />
+        <input type="password" id="signupPassword" placeholder="Password" required />
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+        <button type="submit">Create Account</button>
+        <p id="signupMessage" class="message"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Job Details Modal -->
+  <div class="modal" id="jobModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeJobModal()">&times;</span>
+      <h2 id="modalJobTitle"></h2>
+      <p><strong>Company:</strong> <span id="modalCompany"></span></p>
+      <p><strong>Location:</strong> <span id="modalLocation"></span></p>
+      <p><strong>Salary:</strong> ₹<span id="modalSalary"></span>/month</p>
+      <p><strong>Description:</strong></p>
+      <p id="modalDescription"></p>
+      <button id="modalApplyBtn">Apply Now</button>
+    </div>
+  </div>
+
+  <!-- Apply Modal -->
+  <div class="modal" id="applyModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeApplyModal()">&times;</span>
+      <h2>Apply for Job</h2>
+      <form id="applyForm">
+        <input type="text" id="applicantName" placeholder="Your Name" required />
+        <input type="email" id="applicantEmail" placeholder="Your Email" required />
+        <input type="text" id="applicantResume" placeholder="Resume Link / Portfolio Link" required />
+        <textarea id="applicantMessage" placeholder="Why should we hire you?" required></textarea>
+        <button type="submit">Submit Application</button>
+        <p id="applyMessage" class="message"></p>
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© 2026 JobPortal. All Rights Reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
